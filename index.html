@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prédictions de Paris Sportif</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f9;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+        th {
+            background-color: #f0ad4e;
+            color: white;
+        }
+        .highlight {
+            background-color: #d9edf7;
+        }
+        button {
+            padding: 10px 15px;
+            background-color: #5cb85c;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #4cae4c;
+        }
+    </style>
+</head>
+<body>
+    <h1>Prédictions de Paris Sportif</h1>
+
+    <h2>Derniers Résultats des Matchs</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Match</th>
+                <th>Équipe A</th>
+                <th>Équipe B</th>
+                <th>Total But</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Match 1</td>
+                <td><input type="number" placeholder="Score A"></td>
+                <td><input type="number" placeholder="Score B"></td>
+                <td>-</td>
+            </tr>
+            <tr>
+                <td>Match 2</td>
+                <td><input type="number" placeholder="Score A"></td>
+                <td><input type="number" placeholder="Score B"></td>
+                <td>-</td>
+            </tr>
+            <tr>
+                <td>Match 3</td>
+                <td><input type="number" placeholder="Score A"></td>
+                <td><input type="number" placeholder="Score B"></td>
+                <td>-</td>
+            </tr>
+            <tr>
+                <td>Match 4</td>
+                <td><input type="number" placeholder="Score A"></td>
+                <td><input type="number" placeholder="Score B"></td>
+                <td>-</td>
+            </tr>
+            <tr>
+                <td>Match 5</td>
+                <td><input type="number" placeholder="Score A"></td>
+                <td><input type="number" placeholder="Score B"></td>
+                <td>-</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <button onclick="calculateStats()">Soumettre</button>
+
+    <h2>Statistiques Calculées</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Match</th>
+                <th>Plus Faible Score</th>
+                <th>Moyenne des Scores</th>
+                <th>Plus Grand Score</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Équipe A</td>
+                <td id="minA">-</td>
+                <td id="avgA">-</td>
+                <td id="maxA">-</td>
+            </tr>
+            <tr>
+                <td>Équipe B</td>
+                <td id="minB">-</td>
+                <td id="avgB">-</td>
+                <td id="maxB">-</td>
+            </tr>
+            <tr>
+                <td>Total</td>
+                <td id="totalMin">-</td>
+                <td id="totalAvg">-</td>
+                <td id="totalMax">-</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <script>
+        function calculateStats() {
+            const rows = document.querySelectorAll('tbody tr');
+            let scoresA = [];
+            let scoresB = [];
+
+            rows.forEach((row, index) => {
+                if (index < 5) { // Only process the first table rows
+                    const scoreA = parseInt(row.cells[1].querySelector('input').value) || 0;
+                    const scoreB = parseInt(row.cells[2].querySelector('input').value) || 0;
+
+                    scoresA.push(scoreA);
+                    scoresB.push(scoreB);
+                    row.cells[3].innerText = scoreA + scoreB; // Update total score
+                }
+            });
+
+            const minA = Math.min(...scoresA);
+            const avgA = (scoresA.reduce((a, b) => a + b, 0) / scoresA.length).toFixed(2);
+            const maxA = Math.max(...scoresA);
+
+            const minB = Math.min(...scoresB);
+            const avgB = (scoresB.reduce((a, b) => a + b, 0) / scoresB.length).toFixed(2);
+            const maxB = Math.max(...scoresB);
+
+            const totalMin = minA + minB;
+            const totalMax = maxA + maxB;
+            const totalAvg = ((parseFloat(avgA) + parseFloat(avgB)) / 2).toFixed(2);
+
+            document.getElementById('minA').innerText = minA;
+            document.getElementById('avgA').innerText = avgA;
+            document.getElementById('maxA').innerText = maxA;
+
+            document.getElementById('minB').innerText = minB;
+            document.getElementById('avgB').innerText = avgB;
+            document.getElementById('maxB').innerText = maxB;
+
+            document.getElementById('totalMin').innerText = totalMin;
+            document.getElementById('totalMax').innerText = totalMax;
+            document.getElementById('totalAvg').innerText = totalAvg;
+        }
+    </script>
+</body>
+</html>
